@@ -1,0 +1,17 @@
+# APK builds
+*.apk
+*.aab
+
+# Archives
+*.zip
+
+# Generated base64 exports
+icon_b64.txt
+icon_favicon_b64.txt
+icon_header_b64.txt
+
+# Node modules (all levels)
+node_modules/
+
+# Claude Code internal memory
+.claude/

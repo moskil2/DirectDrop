@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>DirectDrop — podgląd efektu kropek z cyframi</title>
+<style>
+  html, body {
+    margin: 0; height: 100%;
+    background: #16171c;
+    display: flex; align-items: center; justify-content: center;
+    font-family: system-ui, sans-serif;
+  }
+  .wrap { display: flex; flex-direction: column; align-items: center; gap: 28px; }
+  .label { color: #a8a49a; font-size: 14px; font-weight: 600; }
+  .beam { display: flex; align-items: center; gap: 14px; }
+  .tile {
+    width: 62px; height: 62px; border-radius: 20px;
+    background: #1f6feb; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; box-shadow: 0 8px 20px rgba(31,111,235,.38);
+  }
+  .balls {
+    position: relative; width: 80px; height: 26px; overflow: hidden; flex-shrink: 0;
+  }
+  .ball {
+    position: absolute; top: 50%; left: 0;
+    width: 16px; height: 16px; margin-top: -8px;
+    border-radius: 50%;
+    background: #3ec27a;
+    box-shadow: 0 0 8px rgba(62,194,122,0.65);
+    display: flex; align-items: center; justify-content: center;
+    animation: ballFlow 2.25s ease-in-out infinite;
+  }
+  .ball span {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 8px; font-weight: 700; line-height: 1;
+    color: rgba(0,0,0,.75); user-select: none;
+  }
+  .ball:nth-child(1) { animation-delay: 0s; }
+  .ball:nth-child(2) { animation-delay: 0.56s; }
+  .ball:nth-child(3) { animation-delay: 1.12s; }
+  .ball:nth-child(4) { animation-delay: 1.68s; }
+
+  @keyframes ballFlow {
+    0%   { transform: translateX(0);    opacity: 0; }
+    6%   { opacity: 1; }
+    93%  { opacity: 1; }
+    100% { transform: translateX(64px); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="label">Podgląd: cyfra trwa przez cały "lot" kropki, zmienia się dopiero gdy kropka zniknie</div>
+    <div class="beam">
+      <div class="tile">📱</div>
+      <div class="balls" id="balls">
+        <div class="ball"><span>1</span></div>
+        <div class="ball"><span>0</span></div>
+        <div class="ball"><span>1</span></div>
+        <div class="ball"><span>0</span></div>
+      </div>
+      <div class="tile">💻</div>
+    </div>
+  </div>
+
+<script>
+  // Ta sama logika co w AnimatedBalls (HomeScreen.tsx):
+  // nowa cyfra losowana dopiero przy restarcie cyklu animacji (animationiteration),
+  // czyli w momencie gdy kropka jest niewidoczna (na styku między przejściami).
+  document.querySelectorAll('.ball').forEach(ball => {
+    const span = ball.querySelector('span');
+    ball.addEventListener('animationiteration', () => {
+      span.textContent = Math.random() > 0.5 ? '1' : '0';
+    });
+  });
+</script>
+</body>
+</html>

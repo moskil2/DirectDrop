@@ -1,0 +1,33 @@
+<svg viewBox="0 0 512 512" fill="none" stroke="currentColor" stroke-width="6.5"
+     stroke-linecap="round" stroke-linejoin="round"
+     xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Laptop -->
+  <g id="laptop">
+    <!-- Screen -->
+    <rect x="72" y="252" width="168" height="133" rx="14"/>
+    <!-- Camera dot -->
+    <circle cx="156" cy="263" r="6" fill="currentColor" stroke="none"/>
+    <!-- Base (trapezoid: top narrower, bottom wider, common baseline y=430) -->
+    <path d="M 70 397 L 58 427 Q 57 430 60 430 H 252 Q 255 430 254 427 L 242 397 Z"/>
+    <!-- Trackpad line -->
+    <line x1="126" y1="413" x2="186" y2="413"/>
+  </g>
+
+  <!-- Tablet (portrait, baseline y=430) -->
+  <g id="tablet">
+    <rect x="275" y="278" width="96" height="152" rx="16"/>
+    <!-- Camera dot -->
+    <circle cx="323" cy="292" r="6" fill="currentColor" stroke="none"/>
+  </g>
+
+  <!-- Phone (portrait, baseline y=430) -->
+  <g id="phone">
+    <rect x="390" y="300" width="68" height="130" rx="22"/>
+    <!-- Speaker grille -->
+    <line x1="404" y1="318" x2="444" y2="318"/>
+    <!-- Home bar -->
+    <line x1="408" y1="418" x2="440" y2="418"/>
+  </g>
+
+</svg>
