@@ -13,14 +13,17 @@ type UploadDialogStatus = 'waiting' | 'receiving' | 'done' | 'rejected'
 
 interface IncomingFileInfo { name: string; size: number }
 
-function IncomingFileDialog({ file, status, onAccept, onReject, onClose, t }: {
-  file: IncomingFileInfo
+function IncomingFileDialog({ files, received, status, onAccept, onReject, onClose, t }: {
+  files: IncomingFileInfo[]
+  received: number
   status: UploadDialogStatus
   onAccept: () => void
   onReject: () => void
   onClose: () => void
   t: import('./i18n').Translations
 }) {
+  const total = files.length
+  const totalSize = files.reduce((s, f) => s + f.size, 0)
   return (
     <div className="menu-overlay">
       <div className="menu-sheet" onClick={e => e.stopPropagation()}>
@@ -36,9 +39,14 @@ function IncomingFileDialog({ file, status, onAccept, onReject, onClose, t }: {
           </div>
         </div>
 
-        <div className="card" style={{ padding: '14px 16px', marginBottom: 16 }}>
-          <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{file.name}</div>
-          <div style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--ink-2)', marginTop: 3 }}>{formatBytes(file.size)}</div>
+        <div className="card" style={{ padding: '10px 16px', marginBottom: 16, maxHeight: 180, overflowY: 'auto' }}>
+          {files.map((f, i) => (
+            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0', borderBottom: i < files.length - 1 ? '1px solid var(--line)' : 'none' }}>
+              <div style={{ fontWeight: 600, fontSize: 14, color: 'var(--ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, marginRight: 8 }}>{f.name}</div>
+              <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--ink-2)', flexShrink: 0 }}>{formatBytes(f.size)}</div>
+            </div>
+          ))}
+          {total > 1 && <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--accent)', marginTop: 6 }}>{total} {t.filesWord} · {formatBytes(totalSize)}</div>}
         </div>
 
         {status === 'waiting' && (
@@ -53,7 +61,7 @@ function IncomingFileDialog({ file, status, onAccept, onReject, onClose, t }: {
         )}
         {status === 'receiving' && (
           <div style={{ textAlign: 'center', padding: '10px 0', fontSize: 14, fontWeight: 600, color: 'var(--accent)' }}>
-            {t.receivingFile}
+            {t.receivingFile}{total > 1 ? ` ${received}/${total}` : ''}
           </div>
         )}
         {status === 'done' && (
@@ -100,8 +108,9 @@ export default function App() {
   const [toast,     setToast]     = useState<Toast | null>(null)
   const [stats,     setStats]     = useState({ duration: 0, avg: 0 })
   const [address,   setAddress]   = useState('http://1.1.1.1:8080')
-  const [incomingFile,       setIncomingFile]       = useState<IncomingFileInfo | null>(null)
+  const [incomingFiles,      setIncomingFiles]      = useState<IncomingFileInfo[] | null>(null)
   const [uploadDialogStatus, setUploadDialogStatus] = useState<UploadDialogStatus>('waiting')
+  const [receivedCount,      setReceivedCount]      = useState(0)
 
   const nativeFiles  = useRef<NativeFile[]>([])
   const connectTime  = useRef(0)
@@ -137,6 +146,34 @@ export default function App() {
       setScreen('selection')
     } catch { /* user cancelled */ }
   }, [])
+
+  const handleSharedFiles = useCallback(async (shared: NativeFile[]) => {
+    if (!shared.length) return
+    nativeFiles.current = shared
+    const items = shared.map(p => mkFile({ name: p.name, size: p.size, type: extType(p.name) }))
+    setFiles(items)
+    setConnected(false); setClients(0); setConnectedDevices([])
+    setScreen('sharing')
+    try {
+      const info = await DirectDrop.startServer({ port: 8080 })
+      setAddress(info.address)
+      setServerActive(true)
+    } catch (e) {
+      showToast({ icon: 'stop', t: t.serverError, s: String(e) })
+    }
+  }, [showToast, t])
+
+  useEffect(() => {
+    DirectDrop.getPendingShare().then(({ files }) => {
+      if (files && files.length > 0) handleSharedFiles(files)
+    }).catch(() => {})
+
+    let handle: { remove: () => Promise<void> } | null = null
+    DirectDrop.addListener('filesFromShare', ({ files }) => {
+      if (files && files.length > 0) handleSharedFiles(files)
+    }).then(h => { handle = h })
+    return () => { handle?.remove() }
+  }, [handleSharedFiles])
 
   const removeFile = (id: number) => {
     const removed = files.find(f => f.id === id)
@@ -199,13 +236,12 @@ export default function App() {
   }, [])
 
   const handleCloseUploadDialog = useCallback(() => {
-    setIncomingFile(null)
+    setIncomingFiles(null)
     setUploadDialogStatus('waiting')
+    setReceivedCount(0)
   }, [])
 
   const exitApp = useCallback(async () => {
-    await DirectDrop.stopServer().catch(() => {})
-    setServerActive(false)
     await DirectDrop.exitApp().catch(() => {})
   }, [])
 
@@ -220,12 +256,21 @@ export default function App() {
     let handleUC: { remove: () => Promise<void> } | null = null
 
     DirectDrop.addListener('uploadIntent', (data) => {
-      setIncomingFile({ name: data.name, size: data.size })
+      setIncomingFiles(data.files)
+      setReceivedCount(0)
       setUploadDialogStatus('waiting')
     }).then(h => { handleUI = h })
 
     DirectDrop.addListener('uploadComplete', () => {
-      setUploadDialogStatus('done')
+      setReceivedCount(prev => {
+        const next = prev + 1
+        setIncomingFiles(files => {
+          if (next >= (files?.length ?? 1)) setUploadDialogStatus('done')
+          else setUploadDialogStatus('receiving')
+          return files
+        })
+        return next
+      })
     }).then(h => { handleUC = h })
 
     DirectDrop.addListener('clientConnected', (data) => {
@@ -337,9 +382,10 @@ export default function App() {
           onExit={exitApp}
         />
       )}
-      {incomingFile && (
+      {incomingFiles && (
         <IncomingFileDialog
-          file={incomingFile}
+          files={incomingFiles}
+          received={receivedCount}
           status={uploadDialogStatus}
           onAccept={handleAcceptUpload}
           onReject={handleRejectUpload}

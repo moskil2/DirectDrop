@@ -59,6 +59,7 @@ export interface Translations {
   receivingFile: string
   receivedFile: string
   savedToDownloads: string
+  filesWord: string
   sendFiles: string
   receiveFiles: string
   privacyTitle: string
@@ -157,6 +158,7 @@ const pl: Translations = {
   receivingFile: 'Odbieranie…',
   receivedFile: 'Plik odebrany!',
   savedToDownloads: 'Zapisano w Pobranych',
+  filesWord: 'pliki',
   sendFiles: 'Wyślij pliki',
   receiveFiles: 'Odbierz pliki',
   privacyTitle: 'Bezpieczeństwo i prywatność',
@@ -174,7 +176,7 @@ const pl: Translations = {
   connectedAtLabel: 'Połączono',
   supportBtn: 'Wsparcie projektu',
   supportTitle: 'Wesprzyj projekt',
-  supportBody: 'Jeśli aplikacja ci się podoba, rozważ wsparcie naszego projektu. DirectDrop jest całkowicie darmowy dla wszystkich, nie zawiera reklam i nie zbiera żadnych danych, a utrzymuje się tylko z dobrowolnego wsparcia. Zapraszamy na naszą stronę:',
+  supportBody: 'Jeśli aplikacja Ci się podoba, rozważ wsparcie naszego projektu. DirectDrop jest całkowicie darmowy dla wszystkich, nie zawiera reklam i nie zbiera żadnych danych, a utrzymuje się tylko z dobrowolnego wsparcia. Zapraszamy na naszą stronę:',
   copyLink: 'Kopiuj link',
   copiedLink: 'Skopiowano!',
 }
@@ -240,6 +242,7 @@ const en: Translations = {
   receivingFile: 'Receiving…',
   receivedFile: 'File received!',
   savedToDownloads: 'Saved to Downloads',
+  filesWord: 'files',
   sendFiles: 'Send files',
   receiveFiles: 'Receive files',
   privacyTitle: 'Security & Privacy',
@@ -323,6 +326,7 @@ const es: Translations = {
   receivingFile: 'Recibiendo…',
   receivedFile: '¡Archivo recibido!',
   savedToDownloads: 'Guardado en Descargas',
+  filesWord: 'archivos',
   sendFiles: 'Enviar archivos',
   receiveFiles: 'Recibir archivos',
   privacyTitle: 'Seguridad y privacidad',
@@ -406,6 +410,7 @@ const de: Translations = {
   receivingFile: 'Empfange…',
   receivedFile: 'Datei empfangen!',
   savedToDownloads: 'In Downloads gespeichert',
+  filesWord: 'Dateien',
   sendFiles: 'Dateien senden',
   receiveFiles: 'Dateien empfangen',
   privacyTitle: 'Sicherheit & Datenschutz',
@@ -489,6 +494,7 @@ const fr: Translations = {
   receivingFile: 'Réception…',
   receivedFile: 'Fichier reçu !',
   savedToDownloads: 'Enregistré dans Téléchargements',
+  filesWord: 'fichiers',
   sendFiles: 'Envoyer des fichiers',
   receiveFiles: 'Recevoir des fichiers',
   privacyTitle: 'Sécurité et confidentialité',
@@ -572,6 +578,7 @@ const ptBR: Translations = {
   receivingFile: 'Recebendo…',
   receivedFile: 'Arquivo recebido!',
   savedToDownloads: 'Salvo em Downloads',
+  filesWord: 'arquivos',
   sendFiles: 'Enviar arquivos',
   receiveFiles: 'Receber arquivos',
   privacyTitle: 'Segurança e privacidade',
@@ -655,6 +662,7 @@ const ar: Translations = {
   receivingFile: 'جاري الاستقبال…',
   receivedFile: 'تم استقبال الملف!',
   savedToDownloads: 'تم الحفظ في التنزيلات',
+  filesWord: 'ملفات',
   sendFiles: 'إرسال ملفات',
   receiveFiles: 'استقبال ملفات',
   privacyTitle: 'الأمان والخصوصية',
@@ -738,6 +746,7 @@ const ru: Translations = {
   receivingFile: 'Приём…',
   receivedFile: 'Файл получен!',
   savedToDownloads: 'Сохранено в Загрузках',
+  filesWord: 'файлов',
   sendFiles: 'Отправить файлы',
   receiveFiles: 'Принять файлы',
   privacyTitle: 'Безопасность и приватность',
@@ -821,6 +830,7 @@ const id: Translations = {
   receivingFile: 'Menerima…',
   receivedFile: 'File diterima!',
   savedToDownloads: 'Disimpan di Unduhan',
+  filesWord: 'file',
   sendFiles: 'Kirim file',
   receiveFiles: 'Terima file',
   privacyTitle: 'Keamanan & privasi',
@@ -904,6 +914,7 @@ const ja: Translations = {
   receivingFile: '受信中…',
   receivedFile: 'ファイルを受信しました！',
   savedToDownloads: 'ダウンロードフォルダに保存しました',
+  filesWord: 'ファイル',
   sendFiles: 'ファイルを送信',
   receiveFiles: 'ファイルを受信',
   privacyTitle: 'セキュリティとプライバシー',

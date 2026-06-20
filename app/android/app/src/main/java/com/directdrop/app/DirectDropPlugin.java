@@ -135,6 +135,52 @@ public class DirectDropPlugin extends Plugin {
         return new FileEntry(name != null ? name : "file", size, uri.toString());
     }
 
+    // ── Share Intent ───────────────────────────────────────────────────────────
+
+    /** Called by React on startup to check if files were shared (cold start) */
+    @PluginMethod
+    public void getPendingShare(PluginCall call) {
+        MainActivity activity = (MainActivity) getActivity();
+        List<Uri> uris = activity.takePendingShareUris();
+        JSObject ret = new JSObject();
+        ret.put("files", resolveUrisToJSArray(uris));
+        call.resolve(ret);
+    }
+
+    /** Called from MainActivity.onNewIntent when app is already running (hot start) */
+    void handleSharedUris(List<Uri> uris) {
+        if (uris == null || uris.isEmpty()) return;
+        registeredFiles.clear();
+        ContentResolver resolver = getContext().getContentResolver();
+        for (Uri uri : uris) {
+            FileEntry fe = queryFileEntry(resolver, uri);
+            if (fe != null) registeredFiles.put(fe.name, fe);
+        }
+        if (httpServer != null) httpServer.updateFiles(registeredFiles);
+
+        JSObject data = new JSObject();
+        data.put("files", resolveUrisToJSArray(uris));
+        notifyListeners("filesFromShare", data);
+    }
+
+    private JSArray resolveUrisToJSArray(List<Uri> uris) {
+        JSArray arr = new JSArray();
+        if (uris == null) return arr;
+        ContentResolver resolver = getContext().getContentResolver();
+        registeredFiles.clear();
+        for (Uri uri : uris) {
+            FileEntry fe = queryFileEntry(resolver, uri);
+            if (fe == null) continue;
+            registeredFiles.put(fe.name, fe);
+            JSObject o = new JSObject();
+            o.put("name", fe.name);
+            o.put("size", fe.size);
+            o.put("uri", fe.uri);
+            arr.put(o);
+        }
+        return arr;
+    }
+
     // ── HTTP Server ────────────────────────────────────────────────────────────
 
     @PluginMethod
@@ -165,7 +211,8 @@ public class DirectDropPlugin extends Plugin {
 
     @PluginMethod
     public void stopServer(PluginCall call) {
-        if (httpServer != null) httpServer.notifyShutdown();
+        if (httpServer == null) { call.resolve(); return; }
+        httpServer.notifyShutdown();
         new Thread(() -> {
             try { Thread.sleep(1500); } catch (InterruptedException ignored) {}
             stopExistingServer();
@@ -222,10 +269,17 @@ public class DirectDropPlugin extends Plugin {
         call.resolve();
     }
 
-    void emitUploadIntent(String name, long size) {
+    void emitUploadIntent(List<String> names, List<Long> sizes) {
+        JSArray files = new JSArray();
+        for (int i = 0; i < names.size(); i++) {
+            JSObject o = new JSObject();
+            o.put("name", names.get(i));
+            o.put("size", sizes.get(i));
+            files.put(o);
+        }
         JSObject data = new JSObject();
-        data.put("name", name);
-        data.put("size", size);
+        data.put("files", files);
+        data.put("total", names.size());
         notifyListeners("uploadIntent", data);
     }
 
@@ -316,7 +370,8 @@ public class DirectDropPlugin extends Plugin {
 
     @PluginMethod
     public void exitApp(PluginCall call) {
-        stopExistingServer();
+        if (httpServer != null) httpServer.stop();
+        httpServer = null;
         call.resolve();
         getActivity().runOnUiThread(() -> getActivity().finishAndRemoveTask());
     }

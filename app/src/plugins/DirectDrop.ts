@@ -59,7 +59,7 @@ export interface DirectDropPlugin {
   /** Fired when PC selects a file to send to the phone */
   addListener(
     event: 'uploadIntent',
-    cb: (data: { name: string; size: number }) => void
+    cb: (data: { files: Array<{ name: string; size: number }>; total: number }) => void
   ): Promise<PluginListenerHandle>
 
   /** Fired when an incoming file from PC has been saved */
@@ -70,6 +70,15 @@ export interface DirectDropPlugin {
 
   /** Accept or reject an incoming file from PC */
   confirmUpload(opts: { accepted: boolean }): Promise<void>
+
+  /** Check for files shared via Android share sheet on cold start */
+  getPendingShare(): Promise<{ files: NativeFile[] }>
+
+  /** Fired when files are shared to DirectDrop while app is already running */
+  addListener(
+    event: 'filesFromShare',
+    cb: (data: { files: NativeFile[] }) => void
+  ): Promise<PluginListenerHandle>
 
   removeAllListeners(): Promise<void>
 }
@@ -86,6 +95,7 @@ const webStub: DirectDropPlugin = {
   getStatus: () => Promise.resolve({ running: false, ip: window.location.hostname }),
   addListener: (_e, _cb) => Promise.resolve({ remove: () => Promise.resolve() }),
   confirmUpload: () => Promise.resolve(),
+  getPendingShare: () => Promise.resolve({ files: [] }),
   removeAllListeners: () => Promise.resolve(),
 }
 
