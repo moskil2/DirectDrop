@@ -742,6 +742,7 @@ public class DirectDropServer extends NanoHTTPD {
         }
 
         sb.append("</div>");
+        sb.append("<div id='dlDone' style='display:none'></div>");
         sb.append("<div class='up-sec'>");
         sb.append("<div class='up-title'>").append(escapeHtml(s.uploadTitle)).append("</div>");
         sb.append("<input type='file' id='upIn' multiple style='display:none' onchange='onUpSel(this)'>");
@@ -755,7 +756,7 @@ public class DirectDropServer extends NanoHTTPD {
         sb.append("<div class='up-file'><div style='flex:1;min-width:0'><div class='fname' id='upName'></div><div class='fsize' id='upSz'></div></div>");
         sb.append("<button class='btn-xcancel' onclick='resetUp()' title='Anuluj'>&#10005;</button></div>");
         sb.append("<div class='up-state' id='upMsg'></div></div><div id='upDone' style='display:none' class='up-done'><div style='flex:1;min-width:0'><div class='up-done-nm' id='upDoneNm'></div><div class='up-done-dt' id='upDoneDt'></div></div><button class='btn-xcancel' onclick='document.getElementById(\"upDone\").style.display=\"none\"'>&#10005;</button></div></div>");
-        sb.append("<footer><span>Created by Tomasz Pieczara</span><span>DirectDrop V0.40</span></footer>");
+        sb.append("<footer><span>Created by Tomasz Pieczara</span><span>DirectDrop V0.41</span></footer>");
         sb.append("<script>");
                 sb.append("var TR={");
         sb.append("downloading:").append(jsStr(s.downloading)).append(",");
@@ -800,7 +801,7 @@ public class DirectDropServer extends NanoHTTPD {
         sb.append("var bar=document.getElementById('bar-'+sid(f.name));");
         sb.append("var stat=document.getElementById('stat-'+sid(f.name));");
         sb.append("if(bar){bar.style.width=pct+'%';if(pct>=100)bar.classList.add('done');}");
-        sb.append("if(stat){if(pct>=100){stat.textContent=TR.downloaded;delete active[f.name];delete startTimes[f.name];");
+        sb.append("if(stat){if(pct>=100){stat.textContent=TR.downloaded;var _dl=startTimes[f.name]?(Date.now()-startTimes[f.name])/1000:0;var _sp=_dl>0.1?(f.total/1048576/_dl).toFixed(1)+' MB/s':'';addDlDone(f.name,f.total,_sp);delete active[f.name];delete startTimes[f.name];");
         sb.append("(function(n){setTimeout(function(){");
         sb.append("var row=document.getElementById('f-'+sid(n));");
         sb.append("if(row){row.style.opacity='0';row.style.transform='translateY(-6px)';");
@@ -872,7 +873,7 @@ public class DirectDropServer extends NanoHTTPD {
         sb.append("fetch('/upload',{method:'POST',body:fd}).then(function(r){return r.json();})");
         sb.append(".then(function(){_upIdx++;uploadNext();})");
         sb.append(".catch(function(e){document.getElementById('upMsg').textContent=TR.errPrefix+e.message;});}");
-        sb.append("function showSentInfo(){var el=Date.now()-_upStart;var spd=el>100?(_upTotalBytes/1048576/(el/1000)).toFixed(1)+' MB/s':'';var nm=_upQueue.length===1?_upQueue[0].name:_upQueue[0].name+' +'+(_upQueue.length-1);document.getElementById('upDoneNm').textContent='✓ '+nm;document.getElementById('upDoneDt').textContent=fmtSz(_upTotalBytes)+(spd?' · '+spd:'');document.getElementById('upDone').style.display='flex';}function resetUp(){_upQueue=[];_upIdx=0;_upStart=0;_upTotalBytes=0;if(_upPoll){clearInterval(_upPoll);_upPoll=null;}");
+        sb.append("function addDlDone(nm,sz,spd){var c=document.getElementById('dlDone');if(!c)return;var id='dld-'+sid(nm);if(document.getElementById(id))return;var r=document.createElement('div');r.id=id;r.className='up-done';r.style.marginTop='8px';var i=document.createElement('div');i.style.cssText='flex:1;min-width:0';var a=document.createElement('div');a.className='up-done-nm';a.textContent='✓ '+nm;var b=document.createElement('div');b.className='up-done-dt';b.textContent=fmtSz(sz)+(spd?' · '+spd:'');var x=document.createElement('button');x.className='btn-xcancel';x.innerHTML='&#10005;';x.onclick=function(){c.removeChild(r);if(!c.firstChild)c.style.display='none';};i.appendChild(a);i.appendChild(b);r.appendChild(i);r.appendChild(x);c.appendChild(r);c.style.display='block';}function showSentInfo(){var el=Date.now()-_upStart;var spd=el>100?(_upTotalBytes/1048576/(el/1000)).toFixed(1)+' MB/s':'';var nm=_upQueue.length===1?_upQueue[0].name:_upQueue[0].name+' +'+(_upQueue.length-1);document.getElementById('upDoneNm').textContent='✓ '+nm;document.getElementById('upDoneDt').textContent=fmtSz(_upTotalBytes)+(spd?' · '+spd:'');document.getElementById('upDone').style.display='flex';}function resetUp(){_upQueue=[];_upIdx=0;_upStart=0;_upTotalBytes=0;if(_upPoll){clearInterval(_upPoll);_upPoll=null;}");
         sb.append("document.getElementById('upIn').value='';");
         sb.append("document.getElementById('upArea').style.display='block';");
         sb.append("document.getElementById('upSt').style.display='none';}");
