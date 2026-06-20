@@ -1,3 +1,62 @@
+<p align="center">
+  <img src="DD_ikona.jpg" width="120" alt="DirectDrop icon" />
+</p>
+
+<h1 align="center">DirectDrop</h1>
+
+<p align="center">
+  Transfer files from your phone to any PC over local Wi-Fi.<br>
+  No cloud. No account. No PC app required.
+</p>
+
+<p align="center">
+  <a href="DirectDrop_V0.39.apk"><strong>Download APK V0.39</strong></a>
+  &nbsp;|&nbsp;
+  <a href="CHANGELOG.md">Changelog</a>
+</p>
+
+---
+
+## How it works
+
+1. Open DirectDrop on your Android phone and select files.
+2. The app starts a local HTTP server and shows a QR code.
+3. Scan the QR code (or type the IP) on any PC browser in the same Wi-Fi network.
+4. Download files individually or all at once as a ZIP.
+
+No installation on the PC side. Works in any browser.
+
+## Features
+
+- **Phone to PC** - share photos, videos, documents, any files; per-file progress bar on both sides
+- **PC to Phone** - upload one or multiple files from the PC browser to the phone
+- **Download All as ZIP** - single click to get all files; streamed without compression for maximum speed
+- **Android Share Target** - share files directly from gallery or file manager to DirectDrop
+- **QR code** for instant connection; tap to copy the address
+- **Dark / light theme** following system preference
+- **10 languages**: Polish, English, Spanish, German, French, Portuguese, Arabic, Russian, Indonesian, Japanese
+- **No cloud, no account, no tracking** - transfer stays entirely on your local network
+- **~1.8 MB APK**, Android 8.0+ (API 26-36)
+
+## Download
+
+| Version | APK |
+|---------|-----|
+| V0.39 (latest) | [DirectDrop_V0.39.apk](DirectDrop_V0.39.apk) |
+
+See [CHANGELOG.md](CHANGELOG.md) for full version history.
+
+## Tech stack
+
+- React + TypeScript + Vite (phone UI)
+- Capacitor (Android bridge)
+- NanoHTTPD (embedded HTTP server)
+- ZipOutputStream with level 0 (no-compression ZIP streaming)
+
+---
+
+<details>
+<summary>Design handoff / implementation notes</summary>
 # Handoff: DirectDrop — PWA do przesyłania plików przez Wi‑Fi
 
 > Working name: **DirectDrop**. Łatwy do rebrandingu (QuickDrop / WiFiDrop / LocalBeam / SnapTransfer) — nazwa marki jest jedną zmienną/stałą w kodzie, nie jest „wpalona" w UI.
@@ -314,3 +373,5 @@ Otwórz `prototype/DirectDrop.html` w przeglądarce (wymaga internetu — fonty/
 7. Marka jako jedna stała `BRAND_NAME` (łatwy rebranding).
 
 — Koniec —
+
+</details>
