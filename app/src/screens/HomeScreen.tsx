@@ -6,7 +6,7 @@ import LogoMark from '../components/LogoMark'
 import { type Translations, type LangCode, LANGUAGES } from '../i18n'
 
 const VERSION = 'V0.47'
-const BUILD = '20260621.1400'
+const BUILD = '20260622.1800'
 
 interface Props {
   t: Translations
