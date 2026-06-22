@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">DirectDrop</string>
     <string name="title_activity_main">DirectDrop</string>
-    <string name="package_name">com.directdrop.app</string>
-    <string name="custom_url_scheme">com.directdrop.app</string>
+    <string name="package_name">app.spotrobotics.directdrop</string>
+    <string name="custom_url_scheme">app.spotrobotics.directdrop</string>
 </resources>

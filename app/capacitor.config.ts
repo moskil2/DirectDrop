@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.directdrop.app',
+  appId: 'app.spotrobotics.directdrop',
   appName: 'DirectDrop',
   webDir: 'dist'
 };

@@ -10,7 +10,7 @@ android {
     namespace = "com.directdrop.app"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.directdrop.app"
+        applicationId "app.spotrobotics.directdrop"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 2
