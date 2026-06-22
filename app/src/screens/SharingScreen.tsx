@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import Button from '../components/Button'
 import FileIcon from '../components/FileIcon'
 import Icon from '../components/Icon'
@@ -26,43 +25,29 @@ interface Props {
   onToggleWifiSteps: () => void
 }
 
-function DeviceListSheet({ devices, onClose, t }: { devices: ConnectedClient[]; onClose: () => void; t: Translations }) {
+function DeviceInlineList({ devices, t }: { devices: ConnectedClient[]; t: Translations }) {
   return (
-    <div className="menu-overlay" onClick={onClose}>
-      <div className="menu-sheet" onClick={e => e.stopPropagation()}>
-        <div className="drag-handle" />
-        <div style={{ fontWeight: 800, fontSize: 18, color: 'var(--ink)', marginBottom: 18, letterSpacing: '-.02em' }}>
-          {t.connectedDevicesTitle}
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {devices.map((d, i) => {
-            const ua = parseUserAgent(d.userAgent)
-            return (
-              <div key={i} className="card" style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div style={{
-                  width: 38, height: 38, borderRadius: 11, background: 'var(--accent-soft)', color: 'var(--accent)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
-                }}>
-                  <Icon name={ua.category === 'mobile' ? 'phone' : 'monitor'} size={18} />
-                </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontWeight: 700, fontSize: 14.5, color: 'var(--ink)' }}>{ua.os} · {ua.browser}</div>
-                  <div className="mono" style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--ink-2)', marginTop: 2 }}>{d.ip}</div>
-                  <div className="muted" style={{ fontSize: 11.5, fontWeight: 500, marginTop: 1 }}>
-                    {t.connectedAtLabel} {new Date(d.connectedAt).toLocaleTimeString()}
-                  </div>
-                </div>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 6 }}>
+      {devices.map((d, i) => {
+        const ua = parseUserAgent(d.userAgent)
+        return (
+          <div key={i} className="card" style={{ padding: '11px 14px', display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{
+              width: 34, height: 34, borderRadius: 10, background: 'var(--accent-soft)', color: 'var(--accent)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
+            }}>
+              <Icon name={ua.category === 'mobile' ? 'phone' : 'monitor'} size={16} />
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontWeight: 700, fontSize: 13.5, color: 'var(--ink)' }}>{ua.os} · {ua.browser}</div>
+              <div className="mono" style={{ fontSize: 12, fontWeight: 600, color: 'var(--ink-2)', marginTop: 1 }}>{d.ip}</div>
+              <div className="muted" style={{ fontSize: 11, fontWeight: 500, marginTop: 1 }}>
+                {t.connectedAtLabel} {new Date(d.connectedAt).toLocaleTimeString()}
               </div>
-            )
-          })}
-        </div>
-        <button
-          onClick={onClose}
-          style={{ marginTop: 16, width: '100%', padding: '14px', borderRadius: 16, border: 'none', background: 'var(--card-2)', color: 'var(--ink)', fontSize: 15, fontWeight: 700, cursor: 'pointer', boxShadow: 'inset 0 0 0 1px var(--line)' }}
-        >
-          {t.close}
-        </button>
-      </div>
+            </div>
+          </div>
+        )
+      })}
     </div>
   )
 }
@@ -111,7 +96,6 @@ export default function SharingScreen({ t, address, files, clients, connectedDev
   const doneCount = files.filter(f => f.status === 'done').length
   const overall = total ? files.reduce((s, f) => s + f.size * (f.progress / 100), 0) / total * 100 : 0
   const showActivity = anyActive || allDone
-  const [deviceSheetOpen, setDeviceSheetOpen] = useState(false)
 
   return (
     <>
@@ -192,8 +176,7 @@ export default function SharingScreen({ t, address, files, clients, connectedDev
 
             <div
               className="card"
-              onClick={clients > 0 ? () => setDeviceSheetOpen(true) : undefined}
-              style={{ marginTop: 8, padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 12, cursor: clients > 0 ? 'pointer' : 'default' }}
+              style={{ marginTop: 8, padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 12 }}
             >
               {clients > 0 ? (
                 <>
@@ -207,7 +190,6 @@ export default function SharingScreen({ t, address, files, clients, connectedDev
                     <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--success)' }}>{t.pcConnected}</div>
                     <div className="muted" style={{ fontSize: 12.5, fontWeight: 500, marginTop: 1 }}>{t.devConnected(clients)}</div>
                   </div>
-                  <Icon name="chevR" size={16} style={{ color: 'var(--ink-3)', flexShrink: 0 }} />
                 </>
               ) : (
                 <>
@@ -224,6 +206,7 @@ export default function SharingScreen({ t, address, files, clients, connectedDev
                 </>
               )}
             </div>
+            {clients > 0 && <DeviceInlineList devices={connectedDevices} t={t} />}
           </>
         ) : (
           <>
@@ -280,9 +263,6 @@ export default function SharingScreen({ t, address, files, clients, connectedDev
         }
       </div>
     </div>
-    {deviceSheetOpen && (
-      <DeviceListSheet devices={connectedDevices} onClose={() => setDeviceSheetOpen(false)} t={t} />
-    )}
     </>
   )
 }

@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -342,13 +341,8 @@ public class DirectDropServer extends NanoHTTPD {
         }
 
         if (uri.startsWith("/download/")) {
-            String encoded = uri.substring("/download/".length());
-            try {
-                String filename = URLDecoder.decode(encoded, "UTF-8");
-                return serveFile(clientIp, filename);
-            } catch (Exception e) {
-                return newFixedLengthResponse(Response.Status.BAD_REQUEST, "text/plain", "Bad filename");
-            }
+            String filename = uri.substring("/download/".length());
+            return serveFile(clientIp, filename);
         }
 
         return newFixedLengthResponse(Response.Status.OK, PAGE_MIME, buildHtmlPage());
@@ -593,6 +587,7 @@ public class DirectDropServer extends NanoHTTPD {
                 "attachment; filename*=UTF-8''" + encodeRfc5987(filename));
             response.addHeader("Cache-Control", "no-store");
             response.addHeader("Access-Control-Allow-Origin", "*");
+            response.addHeader("Connection", "close");
             return response;
 
         } catch (IOException e) {
@@ -644,6 +639,7 @@ public class DirectDropServer extends NanoHTTPD {
         r.addHeader("Content-Disposition", "attachment; filename=\"DirectDrop.zip\"");
         r.addHeader("Cache-Control", "no-store");
         r.addHeader("Access-Control-Allow-Origin", "*");
+        r.addHeader("Connection", "close");
         return r;
     }
 
@@ -653,7 +649,7 @@ public class DirectDropServer extends NanoHTTPD {
         boolean isDark = this.dark;
         PageStrings s = PageStrings.forLang(this.lang);
         StringBuilder sb = new StringBuilder();
-        sb.append("<!DOCTYPE html><html lang='pl'><head>");
+        sb.append("<!DOCTYPE html><html lang='").append(this.lang).append("'><head>");
         sb.append("<meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1'>");
         sb.append("<title>DirectDrop</title>");
         sb.append("<link rel='icon' type='image/png' href='data:image/png;base64,").append(FAVICON_B64).append("'>");
@@ -710,6 +706,11 @@ public class DirectDropServer extends NanoHTTPD {
         sb.append(".drop-text{font-size:12px;font-weight:600;color:#999}");
         sb.append(".btn-all{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;border-radius:12px;background:#1f6feb;color:#fff;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;margin-bottom:14px;border:none}");
         sb.append(".btn-all:hover{background:#1a60d6}");
+        sb.append(".upf-row{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:10px;border:1.5px solid transparent;transition:border-color .2s,background .2s}");
+        sb.append("body.light .upf-row{background:#f5f4f1}body.dark .upf-row{background:#1f2128}");
+        sb.append(".upf-row.upf-cur{border-color:#1f6feb}");
+        sb.append(".upf-row.upf-done{border-color:rgba(31,157,87,.45)}");
+        sb.append(".upf-tag{font-size:12px;font-weight:700;flex-shrink:0;white-space:nowrap}");
         sb.append("</style></head>");
         sb.append("<body class='").append(isDark ? "dark" : "light").append("'>");
         sb.append("<div style='display:flex;align-items:center;gap:14px;margin-bottom:24px'>");
@@ -745,7 +746,7 @@ public class DirectDropServer extends NanoHTTPD {
         sb.append("<div id='dlDone' style='display:none'></div>");
         sb.append("<div class='up-sec'>");
         sb.append("<div class='up-title'>").append(escapeHtml(s.uploadTitle)).append("</div>");
-        sb.append("<input type='file' id='upIn' multiple style='display:none' onchange='onUpSel(this)'>");
+        sb.append("<input type='file' id='upIn' multiple accept='.jpg,.jpeg,.png,.gif,.webp,.bmp,.svg,.heic,.heif,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.odt,.ods,.odp,.txt,.rtf,.csv,.json,.xml,.zip,.rar,.7z,.tar,.gz,.mp3,.mp4,.m4a,.m4v,.avi,.mov,.mkv,.webm,.wav,.flac,.ogg,.aac,.apk,.exe,.dmg,.iso' style='display:none' onchange='onUpSel(this)'>");
         sb.append("<div id='upArea'>");
         sb.append("<button class='btn-up' onclick='document.getElementById(\"upIn\").click()'>").append(escapeHtml(s.chooseFileBtn)).append("</button>");
         sb.append("<div id='dropZone' class='drop-zone' ondragover='onDragOver(event)' ondragleave='onDragLeave(event)' ondrop='onDrop(event)'>");
@@ -753,10 +754,15 @@ public class DirectDropServer extends NanoHTTPD {
         sb.append("<span class='drop-text'>").append(escapeHtml(s.dragDropHint)).append("</span>");
         sb.append("</div></div>");
         sb.append("<div id='upSt' style='display:none'>");
-        sb.append("<div class='up-file'><div style='flex:1;min-width:0'><div class='fname' id='upName'></div><div class='fsize' id='upSz'></div></div>");
-        sb.append("<button class='btn-xcancel' onclick='resetUp()' title='Anuluj'>&#10005;</button></div>");
-        sb.append("<div class='up-state' id='upMsg'></div></div><div id='upDone' style='display:none' class='up-done'><div style='flex:1;min-width:0'><div class='up-done-nm' id='upDoneNm'></div><div class='up-done-dt' id='upDoneDt'></div></div><button class='btn-xcancel' onclick='document.getElementById(\"upDone\").style.display=\"none\"'>&#10005;</button></div></div>");
-        sb.append("<footer><span>Created by Tomasz Pieczara</span><span>DirectDrop V0.41</span></footer>");
+        sb.append("<div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:8px'>");
+        sb.append("<div id='upMsg' style='font-size:13px;font-weight:600;color:#888'></div>");
+        sb.append("<button class='btn-xcancel' onclick='resetUp()' title='Anuluj'>&#10005;</button>");
+        sb.append("</div>");
+        sb.append("<div id='upFileList' style='display:flex;flex-direction:column;gap:4px;max-height:200px;overflow-y:auto'></div>");
+        sb.append("<div id='upSzInfo' style='margin-top:8px;font-size:12px;font-weight:600;color:#999;text-align:center'></div>");
+        sb.append("</div>");
+        sb.append("<div id='upDone' style='display:none;flex-direction:column;gap:4px'></div></div>");
+        sb.append("<footer><span>Created by Tomasz Pieczara</span><span>DirectDrop V0.47</span></footer>");
         sb.append("<script>");
                 sb.append("var TR={");
         sb.append("downloading:").append(jsStr(s.downloading)).append(",");
@@ -833,22 +839,16 @@ public class DirectDropServer extends NanoHTTPD {
         sb.append("+'<div style=\"font-size:16px;font-weight:700;margin-bottom:12px;opacity:.7\">'+TR.shutdownTitle+'</div>'");
         sb.append("+'<div style=\"font-size:14px;max-width:280px;line-height:1.55;opacity:.5\">'+TR.shutdownDesc+'</div>'");
         sb.append("+'</div>';}");
-        // Poll /api/theme every 3s to sync dark/light mode from phone
-        sb.append("function pollTheme(){");
-        sb.append("fetch('/api/theme').then(function(r){return r.json();}).then(function(d){");
-        sb.append("document.body.className=d.dark?'dark':'light';");
-        sb.append("}).catch(function(){});");
-        sb.append("}");
-        sb.append("setInterval(pollTheme,3000);");
         sb.append("function fmtSz(b){if(b<1024)return b+' B';if(b<1048576)return(b/1024).toFixed(1)+' KB';if(b<1073741824)return(b/1048576).toFixed(1)+' MB';return(b/1073741824).toFixed(2)+' GB';}");
         sb.append("var _upQueue=[],_upIdx=0,_upPoll=null,_upStart=0,_upTotalBytes=0;");
         sb.append("function onDragOver(e){e.preventDefault();e.stopPropagation();document.getElementById('dropZone').classList.add('over');}");
         sb.append("function onDragLeave(e){e.preventDefault();e.stopPropagation();document.getElementById('dropZone').classList.remove('over');}");
         sb.append("function onDrop(e){e.preventDefault();e.stopPropagation();document.getElementById('dropZone').classList.remove('over');var dt=e.dataTransfer;if(dt&&dt.files&&dt.files.length){handleFiles(dt.files);}}");
+        sb.append("function buildUpFileList(){var list=document.getElementById('upFileList');list.innerHTML='';_upQueue.forEach(function(f,i){var row=document.createElement('div');row.className='upf-row';row.id='upfr'+i;var info=document.createElement('div');info.style.cssText='flex:1;min-width:0';var nm=document.createElement('div');nm.style.cssText='font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap';nm.textContent=f.name;var sz=document.createElement('div');sz.style.cssText='font-size:11px;color:#999;margin-top:1px';sz.textContent=fmtSz(f.size);info.appendChild(nm);info.appendChild(sz);var tag=document.createElement('span');tag.className='upf-tag';tag.id='upft'+i;tag.style.color='#bbb';tag.textContent='...';row.appendChild(info);row.appendChild(tag);list.appendChild(row);});}");
         sb.append("function handleFiles(fl){_upQueue=Array.prototype.slice.call(fl);_upIdx=0;");
         sb.append("var tot=0;_upQueue.forEach(function(f){tot+=f.size;});_upTotalBytes=tot;_upStart=0;");
-        sb.append("document.getElementById('upName').textContent=_upQueue.length===1?_upQueue[0].name:_upQueue[0].name+' +'+ (_upQueue.length-1);");
-        sb.append("document.getElementById('upSz').textContent=fmtSz(tot);");
+        sb.append("buildUpFileList();");
+        sb.append("document.getElementById('upSzInfo').textContent=fmtSz(tot);");
         sb.append("document.getElementById('upArea').style.display='none';");
         sb.append("document.getElementById('upSt').style.display='block';");
         sb.append("document.getElementById('upMsg').textContent=TR.sendingIntent;");
@@ -866,15 +866,18 @@ public class DirectDropServer extends NanoHTTPD {
         sb.append("setTimeout(resetUp,2500);}}).catch(function(){});}");
         sb.append("function uploadNext(){if(_upIdx>=_upQueue.length){showSentInfo();resetUp();return;}");
         sb.append("var f=_upQueue[_upIdx];");
-        sb.append("document.getElementById('upMsg').textContent=TR.sendingFile+' '+(_upIdx+1)+'/'+_upQueue.length;");
-        sb.append("document.getElementById('upName').textContent=f.name;");
-        sb.append("document.getElementById('upSz').textContent=fmtSz(f.size);");
+        sb.append("if(_upIdx>0){var pr=document.getElementById('upfr'+(_upIdx-1));var pt=document.getElementById('upft'+(_upIdx-1));if(pr)pr.className='upf-row upf-done';if(pt){pt.style.color='#1f9d57';pt.textContent='✓';}}");
+        sb.append("var cur=document.getElementById('upfr'+_upIdx);var ct=document.getElementById('upft'+_upIdx);");
+        sb.append("if(cur)cur.className='upf-row upf-cur';if(ct){ct.style.color='#1f6feb';ct.textContent=(_upIdx+1)+'/'+_upQueue.length;}");
+        sb.append("document.getElementById('upMsg').textContent=TR.sendingFile;");
         sb.append("if(_upIdx===0)_upStart=Date.now();var fd=new FormData();fd.append('filename',f.name);fd.append('file',f,f.name);");
         sb.append("fetch('/upload',{method:'POST',body:fd}).then(function(r){return r.json();})");
         sb.append(".then(function(){_upIdx++;uploadNext();})");
         sb.append(".catch(function(e){document.getElementById('upMsg').textContent=TR.errPrefix+e.message;});}");
-        sb.append("function addDlDone(nm,sz,spd){var c=document.getElementById('dlDone');if(!c)return;var id='dld-'+sid(nm);if(document.getElementById(id))return;var r=document.createElement('div');r.id=id;r.className='up-done';r.style.marginTop='8px';var i=document.createElement('div');i.style.cssText='flex:1;min-width:0';var a=document.createElement('div');a.className='up-done-nm';a.textContent='✓ '+nm;var b=document.createElement('div');b.className='up-done-dt';b.textContent=fmtSz(sz)+(spd?' · '+spd:'');var x=document.createElement('button');x.className='btn-xcancel';x.innerHTML='&#10005;';x.onclick=function(){c.removeChild(r);if(!c.firstChild)c.style.display='none';};i.appendChild(a);i.appendChild(b);r.appendChild(i);r.appendChild(x);c.appendChild(r);c.style.display='block';}function showSentInfo(){var el=Date.now()-_upStart;var spd=el>100?(_upTotalBytes/1048576/(el/1000)).toFixed(1)+' MB/s':'';var nm=_upQueue.length===1?_upQueue[0].name:_upQueue[0].name+' +'+(_upQueue.length-1);document.getElementById('upDoneNm').textContent='✓ '+nm;document.getElementById('upDoneDt').textContent=fmtSz(_upTotalBytes)+(spd?' · '+spd:'');document.getElementById('upDone').style.display='flex';}function resetUp(){_upQueue=[];_upIdx=0;_upStart=0;_upTotalBytes=0;if(_upPoll){clearInterval(_upPoll);_upPoll=null;}");
+        sb.append("function addDlDone(nm,sz,spd){var c=document.getElementById('dlDone');if(!c)return;var id='dld-'+sid(nm);if(document.getElementById(id))return;var r=document.createElement('div');r.id=id;r.className='up-done';r.style.marginTop='8px';var i=document.createElement('div');i.style.cssText='flex:1;min-width:0';var a=document.createElement('div');a.className='up-done-nm';a.textContent='✓ '+nm;var b=document.createElement('div');b.className='up-done-dt';b.textContent=fmtSz(sz)+(spd?' · '+spd:'');var x=document.createElement('button');x.className='btn-xcancel';x.innerHTML='&#10005;';x.onclick=function(){c.removeChild(r);if(!c.firstChild)c.style.display='none';};i.appendChild(a);i.appendChild(b);r.appendChild(i);r.appendChild(x);c.appendChild(r);c.style.display='block';}function addUpDone(nm,sz){var c=document.getElementById('upDone');if(!c)return;c.style.display='flex';var r=document.createElement('div');r.className='up-done';r.style.marginTop='4px';var info=document.createElement('div');info.style.cssText='flex:1;min-width:0';var a=document.createElement('div');a.className='up-done-nm';a.textContent='✓ '+nm;var b=document.createElement('div');b.className='up-done-dt';b.textContent=fmtSz(sz);var x=document.createElement('button');x.className='btn-xcancel';x.innerHTML='&#10005;';x.onclick=function(){r.parentNode&&r.parentNode.removeChild(r);if(!c.firstChild)c.style.display='none';};info.appendChild(a);info.appendChild(b);r.appendChild(info);r.appendChild(x);c.appendChild(r);}function showSentInfo(){var el=Date.now()-_upStart;var spd=el>100?(_upTotalBytes/1048576/(el/1000)).toFixed(1)+' MB/s':'';_upQueue.forEach(function(f){addUpDone(f.name,f.size);});var si=document.getElementById('upSzInfo');if(si)si.textContent=fmtSz(_upTotalBytes)+(spd?' · '+spd:'');}function resetUp(){_upQueue=[];_upIdx=0;_upStart=0;_upTotalBytes=0;if(_upPoll){clearInterval(_upPoll);_upPoll=null;}");
         sb.append("document.getElementById('upIn').value='';");
+        sb.append("document.getElementById('upFileList').innerHTML='';");
+        sb.append("document.getElementById('upSzInfo').textContent='';");
         sb.append("document.getElementById('upArea').style.display='block';");
         sb.append("document.getElementById('upSt').style.display='none';}");
         sb.append("</script></body></html>");

@@ -5,8 +5,8 @@ import Icon, { type IconName } from '../components/Icon'
 import LogoMark from '../components/LogoMark'
 import { type Translations, type LangCode, LANGUAGES } from '../i18n'
 
-const VERSION = 'V0.41'
-const BUILD = '20260620.1530'
+const VERSION = 'V0.47'
+const BUILD = '20260621.1400'
 
 interface Props {
   t: Translations
@@ -392,6 +392,7 @@ function MenuSheet({ dark, onToggleDark, onClose, t }: {
           <div style={{ padding: '15px 18px' }}>
             <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-2)' }}>{t.developerLabel}</div>
             <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink)', marginTop: 2 }}>Tomasz Pieczara</div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-2)', marginTop: 1 }}>SpotRobotics</div>
           </div>
         </div>
 
