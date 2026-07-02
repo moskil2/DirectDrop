@@ -5,8 +5,8 @@ import Icon, { type IconName } from '../components/Icon'
 import LogoMark from '../components/LogoMark'
 import { type Translations, type LangCode, LANGUAGES } from '../i18n'
 
-const VERSION = 'V0.47'
-const BUILD = '20260622.1800'
+const VERSION = 'V0.48'
+const BUILD = '20260624.1000'
 
 interface Props {
   t: Translations

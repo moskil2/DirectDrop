@@ -38,6 +38,9 @@ export interface DirectDropPlugin {
   /** Sync UI language to PC download page */
   setLang(opts: { lang: string }): Promise<void>
 
+  /** Get previously saved UI language from native storage; lang is null on fresh install */
+  getLang(): Promise<{ lang: string | null }>
+
   /** Stop server and kill the app process */
   exitApp(): Promise<void>
 
@@ -91,6 +94,7 @@ const webStub: DirectDropPlugin = {
   registerFiles: () => Promise.resolve(),
   setTheme: () => Promise.resolve(),
   setLang: () => Promise.resolve(),
+  getLang: () => Promise.resolve({ lang: null }),
   exitApp: () => Promise.resolve(),
   getStatus: () => Promise.resolve({ running: false, ip: window.location.hostname }),
   addListener: (_e, _cb) => Promise.resolve({ remove: () => Promise.resolve() }),

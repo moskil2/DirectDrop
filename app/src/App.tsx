@@ -95,7 +95,8 @@ export default function App() {
   const prefs = useRef(loadPrefs()).current
 
   const [dark,      setDark]      = useState<boolean>(prefs.dark ?? true)
-  const [lang,      setLang]      = useState<LangCode>(prefs.lang ?? 'en')
+  const [lang,      setLang]      = useState<LangCode>('en')
+  const langLoadedRef = useRef(false)
   const [howItWorksOpen, setHowItWorksOpen] = useState<boolean>(prefs.howItWorksOpen ?? true)
   const [wifiStepsOpen,  setWifiStepsOpen]  = useState<boolean>(prefs.wifiStepsOpen ?? true)
   const [screen,    setScreen]    = useState<Screen>('home')
@@ -124,10 +125,18 @@ export default function App() {
   }, [dark])
 
   useEffect(() => {
+    DirectDrop.getLang()
+      .then(({ lang: saved }) => { if (saved) setLang(saved as LangCode) })
+      .catch(() => {})
+      .finally(() => { langLoadedRef.current = true })
+  }, [])
+
+  useEffect(() => {
+    if (!langLoadedRef.current) return
     DirectDrop.setLang({ lang }).catch(() => {})
   }, [lang])
 
-  useEffect(() => { savePrefs({ dark, lang, howItWorksOpen, wifiStepsOpen }) }, [dark, lang, howItWorksOpen, wifiStepsOpen])
+  useEffect(() => { savePrefs({ dark, howItWorksOpen, wifiStepsOpen }) }, [dark, howItWorksOpen, wifiStepsOpen])
 
   const showToast = useCallback((o: Toast) => {
     setToast(o); setTimeout(() => setToast(null), 2600)

@@ -940,5 +940,5 @@ const ja: Translations = {
 export const translations: Record<LangCode, Translations> = { pl, en, es, de, fr, 'pt-BR': ptBR, ar, ru, id, ja }
 
 export function getLang(code: string): Translations {
-  return translations[code as LangCode] ?? translations.pl
+  return translations[code as LangCode] ?? translations.en
 }

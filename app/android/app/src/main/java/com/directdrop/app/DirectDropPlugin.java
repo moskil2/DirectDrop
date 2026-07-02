@@ -50,12 +50,26 @@ public class DirectDropPlugin extends Plugin {
         call.resolve();
     }
 
+    private static final String PREFS_NAME = "DirectDropPrefs";
+    private static final String KEY_LANG   = "lang";
+
     @PluginMethod
     public void setLang(PluginCall call) {
         String l = call.getString("lang", "en");
         uiLang = l != null ? l : "en";
         if (httpServer != null) httpServer.setLang(uiLang);
+        getContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                .edit().putString(KEY_LANG, uiLang).apply();
         call.resolve();
+    }
+
+    @PluginMethod
+    public void getLang(PluginCall call) {
+        String saved = getContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                .getString(KEY_LANG, null);
+        JSObject ret = new JSObject();
+        if (saved != null) ret.put("lang", saved); else ret.put("lang", (Object) null);
+        call.resolve(ret);
     }
 
     // ── File Picker ────────────────────────────────────────────────────────────
