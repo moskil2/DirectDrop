@@ -1,5 +1,49 @@
 # Changelog
 
+## V0.48 (2026-07-02)
+
+### Fixed
+- **Jezyk domyslny przy swiezej instalacji** - aplikacja zawsze startowala po angielsku niezaleznie od jezyka urzadzenia; teraz jezyk jest zapisywany w Android SharedPreferences i poprawnie odczytywany przy kolejnych uruchomieniach
+- Fallback getLang() z polskiego na angielski dla nieobslugiwanych kodow jezykow
+
+### Changed
+- Preferencja jezyka zapisywana w Android SharedPreferences (czyszczona przy odinstalowaniu)
+- Zmiana applicationId na `app.spotrobotics.directdrop` (Google Play)
+
+---
+
+## V0.47 (2026-06-22)
+
+### Added
+- **Lista postepu wieloplikowego uploadu** - podczas wysylania wielu plikow z PC na telefon kazdy plik ma wlasny wiersz z paskiem postepu
+- Naglowek `Connection: close` dla pobran plikow i ZIP (poprawia kompatybilnosc z niektórymi przegladarkami)
+- Etykieta SpotRobotics w sekcji About
+
+### Changed
+- **Lista urzadzen inline** - lista znalezionych urzadzen wyswietlana jako karty bezposrednio pod statusem polaczenia zamiast w modalnym okienku
+
+### Fixed
+- Atrybut `lang` strony HTML teraz zgadza sie z jezykiem wybranym w aplikacji (byl zakodowany na stale jako `pl`)
+- `resetUp()` czysci `upSzInfo` aby uniknac wyswietlania nieswiezego rozmiaru przy ponownym uploadzie
+- Usunieto zbedne `URLDecoder.decode` (NanoHTTPD juz dekoduje URI)
+
+---
+
+## V0.41 (2026-06-20)
+
+### Added
+- **Karta podsumowania pobierania** - po zakonczeniu pobierania kazdego pliku na PC pojawia sie zielona karta z nazwa pliku, rozmiarem i predkoscia transferu (MB/s); karty kumuluja sie dla wielu pobran i mozna je zamknac przyciskiem X
+
+---
+
+## V0.40 (2026-06-20)
+
+### Added
+- **Nowa ikona favicon** - niebieska ikona DirectDrop w karcie przegladarki na stronie PC (zamiast domyslnej ikony)
+- **Karta podsumowania wysylania** - po wyslaniu plikow z PC na telefon pojawia sie zielona karta z nazwa pliku, lacznie rozmiarem i predkoscia transferu; mozna ja zamknac X, a obszar uploadu od razu wraca do stanu gotowosci
+
+---
+
 ## V0.39 (2026-06-20)
 
 ### Added
