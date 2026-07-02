@@ -5,12 +5,14 @@
 <h1 align="center">DirectDrop</h1>
 
 <p align="center">
-  Transfer files from your phone to any PC over local Wi-Fi.<br>
-  No cloud. No account. No PC app required.
+  Transfer files between your phone and any device over local Wi-Fi.<br>
+  No cloud. No account. No app required on the other side.
 </p>
 
 <p align="center">
-  <a href="DirectDrop_V0.39.apk"><strong>Download APK V0.39</strong></a>
+  <a href="https://play.google.com/store/apps/details?id=app.spotrobotics.directdrop"><strong>Google Play</strong></a>
+  &nbsp;|&nbsp;
+  <a href="DirectDrop_V0.48.apk"><strong>APK V0.48 (sideload)</strong></a>
   &nbsp;|&nbsp;
   <a href="CHANGELOG.md">Changelog</a>
 </p>
@@ -19,12 +21,16 @@
 
 ## How it works
 
+**Phone to PC:**
 1. Open DirectDrop on your Android phone and select files.
 2. The app starts a local HTTP server and shows a QR code.
-3. Scan the QR code (or type the IP) on any PC browser in the same Wi-Fi network.
+3. Scan the QR code (or type the IP) on any browser in the same Wi-Fi network.
 4. Download files individually or all at once as a ZIP.
 
-No installation on the PC side. Works in any browser.
+**PC to Phone:**
+- Use the upload area in the browser to send files from any device to your phone.
+
+No installation on the receiving side. Works in any browser.
 
 ## Features
 
@@ -42,7 +48,8 @@ No installation on the PC side. Works in any browser.
 
 | Version | APK |
 |---------|-----|
-| V0.39 (latest) | [DirectDrop_V0.39.apk](DirectDrop_V0.39.apk) |
+| V0.48 (latest) | [DirectDrop_V0.48.apk](DirectDrop_V0.48.apk) |
+| V0.39 | [DirectDrop_V0.39.apk](DirectDrop_V0.39.apk) |
 
 See [CHANGELOG.md](CHANGELOG.md) for full version history.
 
