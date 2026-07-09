@@ -91,7 +91,7 @@ body.stage-dark {
   animation: fadeIn .2s ease;
 }
 .menu-sheet {
-  width: 100%; background: var(--card); border-radius: 28px 28px 0 0;
+  width: 100%; background: var(--card); border-radius: 0;
   padding: 20px 24px calc(32px + env(safe-area-inset-bottom));
   box-shadow: 0 -8px 40px rgba(0,0,0,.18);
   animation: sheetUp .28s cubic-bezier(.22,1,.36,1);
@@ -106,7 +106,7 @@ body.stage-dark {
 @keyframes sheetDown { from{transform:translateY(-40px)} to{transform:none} }
 .menu-overlay--top { align-items: flex-start; }
 .menu-sheet--top {
-  border-radius: 0 0 28px 28px;
+  border-radius: 0;
   padding: calc(16px + env(safe-area-inset-top)) 24px 28px;
   box-shadow: 0 8px 40px rgba(0,0,0,.18);
   animation: sheetDown .28s cubic-bezier(.22,1,.36,1);

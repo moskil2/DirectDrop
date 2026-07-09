@@ -1,5 +1,17 @@
 # Changelog
 
+## V0.50 (2026-07-09)
+
+### Fixed
+- Biale podswietlenie na zaokraglonych rogach arkusza MENU przy rozwijaniu/zwijaniu kafelkow - usuniete zaokraglenie rogow arkusza (border-radius) eliminuje przyczyne
+
+## V0.49 (2026-07-06)
+
+### Changed
+- Etykieta SpotRobotics w sekcji About jest teraz zielonym linkiem do spotrobotics.app
+
+---
+
 ## V0.48 (2026-07-02)
 
 ### Fixed

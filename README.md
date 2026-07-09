@@ -12,7 +12,7 @@
 <p align="center">
   <a href="https://play.google.com/store/apps/details?id=app.spotrobotics.directdrop"><strong>Google Play</strong></a>
   &nbsp;|&nbsp;
-  <a href="DirectDrop_V0.48.apk"><strong>APK V0.48 (sideload)</strong></a>
+  <a href="DirectDrop_V0.50.apk"><strong>APK V0.50 (sideload)</strong></a>
   &nbsp;|&nbsp;
   <a href="CHANGELOG.md">Changelog</a>
 </p>
@@ -48,7 +48,7 @@ No installation on the receiving side. Works in any browser.
 
 | Version | APK |
 |---------|-----|
-| V0.48 (latest) | [DirectDrop_V0.48.apk](DirectDrop_V0.48.apk) |
+| V0.50 (latest) | [DirectDrop_V0.50.apk](DirectDrop_V0.50.apk) |
 | V0.39 | [DirectDrop_V0.39.apk](DirectDrop_V0.39.apk) |
 
 See [CHANGELOG.md](CHANGELOG.md) for full version history.
