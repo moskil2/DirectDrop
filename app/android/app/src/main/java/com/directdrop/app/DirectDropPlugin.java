@@ -1,16 +1,22 @@
 package com.directdrop.app;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.view.Window;
+
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
@@ -47,7 +53,27 @@ public class DirectDropPlugin extends Plugin {
     public void setTheme(PluginCall call) {
         darkTheme = Boolean.TRUE.equals(call.getBoolean("dark", false));
         if (httpServer != null) httpServer.setDark(darkTheme);
+        applySystemBarsTheme(darkTheme);
         call.resolve();
+    }
+
+    /** Keeps the Android status bar (top) and navigation bar (bottom) in sync with the app's own dark/light theme. */
+    static void applySystemBarsTheme(Activity activity, boolean dark) {
+        if (activity == null) return;
+        activity.runOnUiThread(() -> {
+            Window window = activity.getWindow();
+            int bg = Color.parseColor(dark ? "#16171c" : "#fbfaf7");
+            window.setStatusBarColor(bg);
+            window.setNavigationBarColor(bg);
+            WindowInsetsControllerCompat controller =
+                WindowCompat.getInsetsController(window, window.getDecorView());
+            controller.setAppearanceLightStatusBars(!dark);
+            controller.setAppearanceLightNavigationBars(!dark);
+        });
+    }
+
+    private void applySystemBarsTheme(boolean dark) {
+        applySystemBarsTheme(getActivity(), dark);
     }
 
     private static final String PREFS_NAME = "DirectDropPrefs";

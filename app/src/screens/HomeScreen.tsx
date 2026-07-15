@@ -5,8 +5,8 @@ import Icon, { type IconName } from '../components/Icon'
 import LogoMark from '../components/LogoMark'
 import { type Translations, type LangCode, LANGUAGES } from '../i18n'
 
-const VERSION = 'V0.50'
-const BUILD = '20260709.2200'
+const VERSION = 'V0.53'
+const BUILD = '20260715.1300'
 
 interface Props {
   t: Translations
@@ -346,16 +346,13 @@ function SupportSheet({ onClose, t }: { onClose: () => void; t: Translations }) 
   )
 }
 
-const CONTACT_EMAIL = 'tomasz.pieczara@gazeta.pl'
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=app.spotrobotics.directdrop'
+const PRIVACY_POLICY_URL = 'https://spotrobotics.app/directdrop/privacy.html'
+const SUPPORT_FORM_URL = 'https://spotrobotics.app/support/'
 
 function MenuSheet({ dark, onToggleDark, onClose, t }: {
   dark: boolean; onToggleDark: () => void; onClose: () => void; t: Translations
 }) {
-  const [copiedEmail, setCopiedEmail] = useState(false)
-  const copyEmail = () => {
-    try { navigator.clipboard?.writeText(CONTACT_EMAIL) } catch {}
-    setCopiedEmail(true); setTimeout(() => setCopiedEmail(false), 1800)
-  }
   return (
     <div className="menu-overlay" onClick={onClose}>
       <div className="menu-sheet" onClick={e => e.stopPropagation()}>
@@ -389,6 +386,22 @@ function MenuSheet({ dark, onToggleDark, onClose, t }: {
               }} />
             </button>
           </div>
+          <a
+            href={PLAY_STORE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              padding: '15px 18px', borderBottom: '1px solid var(--line)',
+              textDecoration: 'none', color: 'inherit',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <Icon name="star" size={16} style={{ color: 'var(--success)' }} />
+              <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink)' }}>{t.rateApp}</div>
+            </div>
+            <Icon name="chevR" size={16} style={{ color: 'var(--ink-3)' }} />
+          </a>
           <div style={{ padding: '15px 18px' }}>
             <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-2)' }}>{t.developerLabel}</div>
             <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink)', marginTop: 2 }}>Tomasz Pieczara</div>
@@ -403,17 +416,6 @@ function MenuSheet({ dark, onToggleDark, onClose, t }: {
           </div>
         </div>
 
-        <CollapsibleSection icon="shield" title={t.privacyTitle}>
-          <div style={{ padding: '14px 18px 16px', display: 'flex', gap: 12 }}>
-            <div style={{ width: 38, height: 38, borderRadius: 11, background: 'color-mix(in srgb,var(--success) 14%,transparent)', color: 'var(--success)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
-              <Icon name="shield" size={18} />
-            </div>
-            <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--ink-2)', lineHeight: 1.55 }}>
-              {t.privacyBody}
-            </div>
-          </div>
-        </CollapsibleSection>
-
         <CollapsibleSection icon="wifi" title={t.wifiHotspotTitle}>
           <div style={{ padding: '14px 18px 16px', display: 'flex', gap: 12 }}>
             <div style={{ width: 38, height: 38, borderRadius: 11, background: 'color-mix(in srgb,var(--success) 14%,transparent)', color: 'var(--success)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
@@ -425,30 +427,58 @@ function MenuSheet({ dark, onToggleDark, onClose, t }: {
           </div>
         </CollapsibleSection>
 
-        <CollapsibleSection icon="doc" title={t.rodoTitle}>
+        <CollapsibleSection icon="shield" title={t.privacyTitle}>
+          <div style={{ padding: '14px 18px 16px', display: 'flex', gap: 12 }}>
+            <div style={{ width: 38, height: 38, borderRadius: 11, background: 'color-mix(in srgb,var(--success) 14%,transparent)', color: 'var(--success)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
+              <Icon name="shield" size={18} />
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--ink-2)', lineHeight: 1.55 }}>
+                {t.privacyBody}
+              </div>
+              <a
+                href={PRIVACY_POLICY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 10, fontSize: 12.5, fontWeight: 700, color: '#3ec27a', textDecoration: 'none' }}
+              >
+                <Icon name="link" size={13} />
+                {t.viewFullPolicy}
+              </a>
+            </div>
+          </div>
+        </CollapsibleSection>
+
+        <CollapsibleSection icon="doc" title={t.termsTitle}>
           <div style={{ padding: '14px 18px 16px', display: 'flex', gap: 12 }}>
             <div style={{ width: 38, height: 38, borderRadius: 11, background: 'color-mix(in srgb,var(--success) 14%,transparent)', color: 'var(--success)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
               <Icon name="doc" size={18} />
             </div>
             <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--ink-2)', lineHeight: 1.55 }}>
-              {t.rodoBody}
+              {t.termsBody}
             </div>
           </div>
         </CollapsibleSection>
 
         <CollapsibleSection icon="mail" title={t.contactTitle}>
-          <div style={{ padding: '14px 18px 16px', display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-            <div style={{ width: 38, height: 38, borderRadius: 11, background: 'color-mix(in srgb,var(--success) 14%,transparent)', color: 'var(--success)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <div style={{ padding: '14px 18px 16px', display: 'flex', gap: 12 }}>
+            <div style={{ width: 38, height: 38, borderRadius: 11, background: 'color-mix(in srgb,var(--success) 14%,transparent)', color: 'var(--success)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
               <Icon name="mail" size={18} />
             </div>
-            <div style={{ flex: 1, minWidth: 0, paddingTop: 9 }}>
-              <div className="mono" style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink)', wordBreak: 'break-all', lineHeight: 1.4 }}>
-                {CONTACT_EMAIL}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--ink-2)', lineHeight: 1.55 }}>
+                {t.contactBody}
               </div>
+              <a
+                href={SUPPORT_FORM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 10, fontSize: 12.5, fontWeight: 700, color: '#3ec27a', textDecoration: 'none' }}
+              >
+                <Icon name="link" size={13} />
+                {t.contactLinkLabel}
+              </a>
             </div>
-            <button onClick={copyEmail} className="iconbtn" title={t.copyEmail} style={{ flexShrink: 0 }}>
-              <Icon name={copiedEmail ? 'check' : 'copy'} size={16} />
-            </button>
           </div>
         </CollapsibleSection>
 

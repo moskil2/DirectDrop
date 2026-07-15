@@ -17,6 +17,9 @@ public class MainActivity extends BridgeActivity {
         registerPlugin(DirectDropPlugin.class);
         super.onCreate(savedInstanceState);
         extractShareUris(getIntent());
+        // Sane default so the status/navigation bars aren't mismatched during the brief
+        // window before React mounts and reports the actual saved theme via setTheme().
+        DirectDropPlugin.applySystemBarsTheme(this, true);
     }
 
     @Override

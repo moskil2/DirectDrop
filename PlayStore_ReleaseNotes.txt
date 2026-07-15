@@ -1,0 +1,54 @@
+DirectDrop lets you transfer files between your Android phone and any PC on the same Wi-Fi - no cables, no cloud, no account needed.
+
+Open the app, scan the QR code on the PC, and your files are ready to download instantly in any browser.
+
+---
+
+What's new - full changelog
+
+0.53
+- Added a "Contact / Report Bug / Feature Request" option in the menu - reach us in seconds with a simple form
+- Reorganized menu order for clearer navigation
+
+0.52
+- Bug fixes and stability improvements
+
+0.51
+- Merged privacy-related sections into a single "Privacy Policy" section with a direct link to the full policy on spotrobotics.app
+- Added Terms of Service
+- Added a "Rate the app" button in the menu, linking to the Google Play listing
+
+0.50
+- Bug fixes and stability improvements
+
+0.49
+- Refined the About section: the SpotRobotics credit is now a clickable link to spotrobotics.app, so you can easily learn more about the developer behind DirectDrop
+
+0.48
+- Fixed: app language now follows the device language correctly on first install
+
+0.47
+- Multi-file upload from PC to phone now shows each file as a separate row with a live progress indicator
+- Connected devices are shown directly on the sharing screen instead of in a popup
+- Bug fixes and stability improvements
+
+0.41
+- Download summary card appears on the PC page after each file is saved to the PC
+
+0.40
+- Summary card shown after sending files from PC to phone
+- New app icon in the browser tab on the PC download page
+
+0.39
+- Download All as ZIP - one click to download all shared files in a single ZIP archive
+- Multi-file upload from PC to phone - select multiple files at once, phone confirms the whole batch in one tap
+- Android Share Target - DirectDrop now appears in the system share sheet; share files directly from the gallery, file manager or any other app
+
+0.36 - Initial release
+- Phone-to-PC file transfer over local Wi-Fi
+- QR code for instant connection - no typing required
+- Real-time transfer progress on both phone and PC
+- PC-to-phone upload via drag and drop or file picker
+- Dark and light theme
+- 10 languages: English, Polish, Spanish, German, French, Portuguese, Arabic, Russian, Indonesian, Japanese
+- Works on Android 8.0 and newer, no PC software required

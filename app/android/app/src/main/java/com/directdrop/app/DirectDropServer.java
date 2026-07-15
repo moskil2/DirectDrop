@@ -762,7 +762,7 @@ public class DirectDropServer extends NanoHTTPD {
         sb.append("<div id='upSzInfo' style='margin-top:8px;font-size:12px;font-weight:600;color:#999;text-align:center'></div>");
         sb.append("</div>");
         sb.append("<div id='upDone' style='display:none;flex-direction:column;gap:4px'></div></div>");
-        sb.append("<footer><span>Created by Tomasz Pieczara</span><span>DirectDrop V0.50</span></footer>");
+        sb.append("<footer><span>Created by Tomasz Pieczara</span><span>DirectDrop V0.53</span></footer>");
         sb.append("<script>");
                 sb.append("var TR={");
         sb.append("downloading:").append(jsStr(s.downloading)).append(",");

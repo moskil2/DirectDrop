@@ -12,7 +12,7 @@
 <p align="center">
   <a href="https://play.google.com/store/apps/details?id=app.spotrobotics.directdrop"><strong>Google Play</strong></a>
   &nbsp;|&nbsp;
-  <a href="DirectDrop_V0.50.apk"><strong>APK V0.50 (sideload)</strong></a>
+  <a href="DirectDrop_V0.53.apk"><strong>APK V0.53 (sideload)</strong></a>
   &nbsp;|&nbsp;
   <a href="CHANGELOG.md">Changelog</a>
 </p>
@@ -42,13 +42,13 @@ No installation on the receiving side. Works in any browser.
 - **Dark / light theme** following system preference
 - **10 languages**: Polish, English, Spanish, German, French, Portuguese, Arabic, Russian, Indonesian, Japanese
 - **No cloud, no account, no tracking** - transfer stays entirely on your local network
-- **~1.8 MB APK**, Android 8.0+ (API 26-36)
+- **~1.5 MB APK**, Android 8.0+ (API 26-36)
 
 ## Download
 
 | Version | APK |
 |---------|-----|
-| V0.50 (latest) | [DirectDrop_V0.50.apk](DirectDrop_V0.50.apk) |
+| V0.53 (latest) | [DirectDrop_V0.53.apk](DirectDrop_V0.53.apk) |
 | V0.39 | [DirectDrop_V0.39.apk](DirectDrop_V0.39.apk) |
 
 See [CHANGELOG.md](CHANGELOG.md) for full version history.

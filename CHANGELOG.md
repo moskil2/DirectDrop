@@ -1,5 +1,27 @@
 # Changelog
 
+## V0.53 (2026-07-15)
+
+### Changed
+- Kolejność sekcji w menu: "Wi-Fi czy Hotspot" jest teraz przed "Polityką prywatności"
+- Sekcja "Kontakt" zastąpiona sekcją "Kontakt / Zgłoś błąd / Propozycja zmian" z krótkim opisem i linkiem do formularza na spotrobotics.app/support/ zamiast bezpośredniego adresu e-mail
+- Wszystkie zmiany przetłumaczone na 10 języków
+
+## V0.52 (2026-07-14)
+
+### Fixed
+- Pasek statusu (godzina/sieć/bateria) i pasek nawigacji Android nie zmieniały koloru razem z motywem ciemnym/jasnym aplikacji - teraz są zsynchronizowane z wybranym motywem
+
+## V0.51 (2026-07-13)
+
+### Changed
+- Sekcje "Bezpieczenstwo i prywatnosc" oraz "RODO i poufnosc danych" w menu scalone w jedna sekcje "Polityka prywatnosci" z bezposrednim linkiem do pelnej polityki na spotrobotics.app
+- Dawna sekcja RODO zastapiona "Regulaminem" (Terms of Service) z nowa trescia zasad korzystania z aplikacji
+- Wszystkie zmiany przetlumaczone na 10 jezykow
+
+### Added
+- Przycisk "Oceń aplikację" w menu, linkujacy do listingu Google Play
+
 ## V0.50 (2026-07-09)
 
 ### Fixed

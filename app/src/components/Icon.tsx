@@ -5,7 +5,7 @@ export type IconName =
   | 'copy' | 'check' | 'stop' | 'wifi' | 'monitor' | 'phone' | 'shield'
   | 'download' | 'zip' | 'video' | 'image' | 'map' | 'music' | 'file'
   | 'doc' | 'bolt' | 'clock' | 'refresh' | 'sun' | 'moon' | 'qr' | 'link' | 'users'
-  | 'menu' | 'device' | 'mail' | 'heart'
+  | 'menu' | 'device' | 'mail' | 'heart' | 'star'
 
 interface IconProps {
   name: IconName
@@ -50,6 +50,7 @@ const PATHS: Record<IconName, React.ReactNode> = {
   device:   <><rect x="1.5" y="8" width="9.5" height="8" rx="1"/><circle cx="6.25" cy="8.8" r="0.5" fill="currentColor" stroke="none"/><rect x="1" y="20" width="10.5" height="2" rx="0.7"/><line x1="4" y1="21" x2="7.5" y2="21"/><rect x="12.5" y="12.5" width="5" height="9.5" rx="1.2"/><circle cx="15" cy="13.3" r="0.5" fill="currentColor" stroke="none"/><rect x="18.5" y="15" width="3.5" height="7" rx="1.2"/><line x1="19.3" y1="16.3" x2="21.2" y2="16.3"/><line x1="19.3" y1="21" x2="21.2" y2="21"/></>,
   mail:     <><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M4 7l8 6 8-6"/></>,
   heart:    <><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></>,
+  star:     <><path d="M12 2.5l2.9 6.4 6.9.7-5.2 4.7 1.5 6.9L12 17.6l-6.1 3.6 1.5-6.9-5.2-4.7 6.9-.7z"/></>,
 }
 
 export default function Icon({ name, size = 24, stroke = 2, style, className }: IconProps) {
