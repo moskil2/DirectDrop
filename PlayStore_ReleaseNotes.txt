@@ -4,6 +4,22 @@ Open the app, scan the QR code on the PC, and your files are ready to download i
 
 ---
 
+Latest release notes (for Play Console submission - paste per locale)
+
+PL:
+- Dodano opcję "Kontakt / Zgłoś błąd / Propozycja zmian" w menu - napisz do nas w kilka sekund przez prosty formularz
+- Uporządkowano kolejność sekcji w menu dla łatwiejszej nawigacji
+
+EN:
+- Added a "Contact / Report Bug / Feature Request" option in the menu - reach us in seconds with a simple form
+- Reorganized menu order for clearer navigation
+
+DE:
+- Neue Option "Kontakt / Fehler melden / Funktionswunsch" im Menü - erreiche uns in Sekunden über ein einfaches Formular
+- Menüreihenfolge für eine übersichtlichere Navigation neu sortiert
+
+---
+
 What's new - full changelog
 
 0.53
