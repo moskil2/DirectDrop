@@ -10,6 +10,10 @@
 </p>
 
 <p align="center">
+  <img src="PlayStore_FeatureGraphic_1024x500_V2.png" width="600" alt="DirectDrop feature graphic" />
+</p>
+
+<p align="center">
   <a href="https://play.google.com/store/apps/details?id=app.spotrobotics.directdrop"><strong>Google Play</strong></a>
   &nbsp;|&nbsp;
   <a href="DirectDrop_V0.53.apk"><strong>APK V0.53 (sideload)</strong></a>
