@@ -19,6 +19,8 @@
   <a href="DirectDrop_V0.53.apk"><strong>APK V0.53 (sideload)</strong></a>
   &nbsp;|&nbsp;
   <a href="CHANGELOG.md">Changelog</a>
+  &nbsp;|&nbsp;
+  <a href="https://spotrobotics.app/directdrop/">Presentation page</a>
 </p>
 
 ---
