@@ -1,5 +1,11 @@
 # Changelog
 
+## V0.54 (2026-07-15)
+
+### Fixed
+- Naprawiono ostrzeżenie Google Play o wycofanych API dla wyświetlania bez ramki (edge-to-edge) na Androidzie 15 - pasek statusu i pasek nawigacji poprawnie podążają teraz za motywem jasny/ciemny apki (zamiast za ustawieniem systemowym), niezależnie od wersji Androida
+- Dodano obsługę wcięć/notchy (`env(safe-area-inset-*)`) na wszystkich ekranach
+
 ## V0.53 (2026-07-15)
 
 ### Changed

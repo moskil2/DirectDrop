@@ -20,7 +20,7 @@ export default function SelectionScreen({ t, files, dark, onBack, onRemove, onAd
   const total = files.reduce((s, f) => s + f.size, 0)
   return (
     <div className="screen-scroll view-anim">
-      <div style={{ padding: '20px 20px 150px' }}>
+      <div style={{ padding: 'calc(20px + env(safe-area-inset-top)) 20px calc(150px + env(safe-area-inset-bottom))' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 22 }}>
           <button className="iconbtn" onClick={onBack}><Icon name="back" size={20} /></button>
           <div style={{ flex: 1 }}>

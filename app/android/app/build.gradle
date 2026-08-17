@@ -13,8 +13,8 @@ android {
         applicationId "app.spotrobotics.directdrop"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 9
-        versionName "0.53"
+        versionCode 10
+        versionName "0.54"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resConfigs "en", "pl", "es", "de", "fr", "pt", "pt-rBR", "ar", "ru", "in", "ja"
         aaptOptions {
@@ -52,6 +52,7 @@ repositories {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'org.nanohttpd:nanohttpd:2.3.1'
+    implementation "androidx.activity:activity:$androidxActivityVersion"
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
     implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"

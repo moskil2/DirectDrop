@@ -7,20 +7,24 @@ Open the app, scan the QR code on the PC, and your files are ready to download i
 Latest release notes (for Play Console submission - paste per locale)
 
 PL:
-- Dodano opcję "Kontakt / Zgłoś błąd / Propozycja zmian" w menu - napisz do nas w kilka sekund przez prosty formularz
-- Uporządkowano kolejność sekcji w menu dla łatwiejszej nawigacji
+- Naprawiono ostrzeżenie Google Play dotyczące wyświetlania bez ramki (edge-to-edge) na Androidzie 15 - pasek statusu i pasek nawigacji poprawnie dopasowują się teraz do jasnego/ciemnego motywu aplikacji
+- Dodano obsługę wcięć ekranu (notch) na wszystkich ekranach
 
 EN:
-- Added a "Contact / Report Bug / Feature Request" option in the menu - reach us in seconds with a simple form
-- Reorganized menu order for clearer navigation
+- Fixed a Google Play warning about edge-to-edge display on Android 15 - the status and navigation bars now properly match the app's light/dark theme
+- Added display cutout (notch) support across all screens
 
 DE:
-- Neue Option "Kontakt / Fehler melden / Funktionswunsch" im Menü - erreiche uns in Sekunden über ein einfaches Formular
-- Menüreihenfolge für eine übersichtlichere Navigation neu sortiert
+- Google-Play-Warnung zum Edge-to-Edge-Display unter Android 15 behoben - Status- und Navigationsleiste passen sich jetzt korrekt an das helle/dunkle Design der App an
+- Unterstützung für Display-Aussparungen (Notch) auf allen Bildschirmen hinzugefügt
 
 ---
 
 What's new - full changelog
+
+0.54
+- Fixed a Google Play warning about edge-to-edge display on Android 15 - the status and navigation bars now properly match the app's light/dark theme
+- Added display cutout (notch) support across all screens
 
 0.53
 - Added a "Contact / Report Bug / Feature Request" option in the menu - reach us in seconds with a simple form

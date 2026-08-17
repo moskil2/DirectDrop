@@ -5,8 +5,8 @@ import Icon, { type IconName } from '../components/Icon'
 import LogoMark from '../components/LogoMark'
 import { type Translations, type LangCode, LANGUAGES } from '../i18n'
 
-const VERSION = 'V0.53'
-const BUILD = '20260715.1300'
+const VERSION = 'V0.54'
+const BUILD = '20260715.1700'
 
 interface Props {
   t: Translations
@@ -513,7 +513,7 @@ export default function HomeScreen({ t, lang, onSetLang, onSelectFiles, onReceiv
 
   return (
     <div className="screen-scroll view-anim">
-      <div style={{ padding: '28px 24px 160px', minHeight: '100%', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ padding: 'calc(28px + env(safe-area-inset-top)) 24px calc(160px + env(safe-area-inset-bottom))', minHeight: '100%', display: 'flex', flexDirection: 'column' }}>
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>

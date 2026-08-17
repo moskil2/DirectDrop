@@ -13,10 +13,10 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
-import android.view.Window;
 
-import androidx.core.view.WindowCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
+import androidx.activity.ComponentActivity;
+import androidx.activity.EdgeToEdge;
+import androidx.activity.SystemBarStyle;
 
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
@@ -57,18 +57,25 @@ public class DirectDropPlugin extends Plugin {
         call.resolve();
     }
 
-    /** Keeps the Android status bar (top) and navigation bar (bottom) in sync with the app's own dark/light theme. */
+    /**
+     * Keeps the status/navigation bar area in sync with the app's own dark/light theme.
+     * Two separate things need fixing, both because our AppTheme inherits from
+     * Theme.AppCompat.DayNight:
+     * 1) The bar scrim/icon appearance - handled by EdgeToEdge.enable(), the API Google
+     *    recommends instead of the deprecated Window#setStatusBarColor/#setNavigationBarColor.
+     * 2) The window's own background - Theme.AppCompat.DayNight resolves its default
+     *    windowBackground from the *system* day/night setting, not our in-app theme, so it
+     *    can mismatch our theme and show through before the WebView paints. EdgeToEdge doesn't
+     *    touch this, so we set it explicitly (Window#setBackgroundDrawable isn't deprecated).
+     */
     static void applySystemBarsTheme(Activity activity, boolean dark) {
-        if (activity == null) return;
+        if (!(activity instanceof ComponentActivity)) return;
+        ComponentActivity componentActivity = (ComponentActivity) activity;
         activity.runOnUiThread(() -> {
-            Window window = activity.getWindow();
             int bg = Color.parseColor(dark ? "#16171c" : "#fbfaf7");
-            window.setStatusBarColor(bg);
-            window.setNavigationBarColor(bg);
-            WindowInsetsControllerCompat controller =
-                WindowCompat.getInsetsController(window, window.getDecorView());
-            controller.setAppearanceLightStatusBars(!dark);
-            controller.setAppearanceLightNavigationBars(!dark);
+            componentActivity.getWindow().getDecorView().setBackgroundColor(bg);
+            SystemBarStyle style = dark ? SystemBarStyle.dark(bg) : SystemBarStyle.light(bg, bg);
+            EdgeToEdge.enable(componentActivity, style, style);
         });
     }
 

@@ -100,7 +100,7 @@ export default function SharingScreen({ t, address, files, clients, connectedDev
   return (
     <>
     <div className="screen-scroll view-anim">
-      <div style={{ padding: '12px 20px 120px' }}>
+      <div style={{ padding: 'calc(12px + env(safe-area-inset-top)) 20px calc(120px + env(safe-area-inset-bottom))' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
           <span className="pill pill--success pill--live"><span className="dot" />{t.sharingActive}</span>
           <button className="iconbtn" onClick={onExit} title="Zamknij">
